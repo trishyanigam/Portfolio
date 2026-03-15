@@ -151,32 +151,32 @@ const certifications = [
     issuer: "Oracle",
     date: "Aug 2025",
     color: "#f7934f",
-    preview: "#",
-    download: "#",
+    preview: "/certifications/oci-gen-ai.pdf",
+    download: "/certifications/oci-gen-ai.pdf",
   },
   {
     name: "ChatGPT-4 Prompt Engineering: ChatGPT, Generative AI & LLM",
     issuer: "Infosys",
     date: "Aug 2025",
     color: "#38e5c5",
-    preview: "#",
-    download: "#",
+    preview: "/certifications/chatgpt-prompt-engineering.pdf",
+    download: "/certifications/chatgpt-prompt-engineering.pdf",
   },
   {
     name: "Introduction to Machine Learning",
     issuer: "NPTEL (IIT Madras)",
     date: "Jan 2025 – Apr 2025",
     color: "#c084fc",
-    preview: "#",
-    download: "#",
+    preview: "/certifications/intro-to-ml.pdf",
+    download: "/certifications/intro-to-ml.pdf",
   },
   {
     name: "Web Development",
     issuer: "Rising Tech Pro",
     date: "Feb 2024 – Mar 2024",
     color: "#4f8ef7",
-    preview: "#",
-    download: "#",
+    preview: "/certifications/web-development.pdf",
+    download: "/certifications/web-development.pdf",
   },
 ];
 
@@ -190,8 +190,8 @@ const training = [
       "Learned new frameworks like React.js, Express.js and MongoDB database",
       "Built a MERN project on Job Application Tracker and earned certification",
     ],
-    preview: "#",
-    download: "#",
+    preview: "/training/mern-with-gen-ai.pdf",
+    download: "/training/mern-with-gen-ai.pdf",
   },
 ];
 
@@ -550,7 +550,16 @@ export default function Portfolio() {
               fontSize: 80, border: `3px solid ${c.border}`,
               overflow: "hidden",
             }}>
-              👩‍💻
+            <img
+                src="profile.jpeg"
+                alt=""
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center 10%",
+                }}
+              />
             </div>
           </div>
           {/* Quick stats */}
