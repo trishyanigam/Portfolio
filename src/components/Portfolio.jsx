@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import emailjs from '@emailjs/browser';
 
 const COLORS = {
   dark: {
@@ -60,7 +61,7 @@ const skillsData = {
 const projects = [
   {
     title: "PrepHunter",
-    period: "2025",
+    period: "Jan 2026 – Feb 2026",
     desc: "Full-Stack Interview Preparation & Job Hunting Platform",
     bullets: [
       "Built a MERN stack platform to help students prepare for technical interviews with curated resources",
@@ -125,24 +126,7 @@ const projects = [
     github: "https://github.com/trishyanigam/BudgetBuddy",
     live: "#",
     featured: false,
-  },
-  {
-    title: "Fake News Detector",
-    period: "2025",
-    desc: "AI-Powered News Credibility Verification & Fact-Checking Tool",
-    bullets: [
-      "Built a web app that analyzes news articles and URLs to detect potentially fake or misleading content",
-      "Integrated multiple pages: analyze, results, similar articles, sources, and how-it-works explanation",
-      "Implemented credibility scoring logic with a clean, responsive interface using vanilla HTML/CSS/JS",
-    ],
-    tech: ["HTML", "CSS", "JavaScript"],
-    color: "#f43f5e",
-    emoji: "🔍",
-    image: "/project-images/fakenewsdetector.png",
-    github: "https://github.com/trishyanigam/fake-news-detector",
-    live: "#",
-    featured: false,
-  },
+  }
 ];
 
 const certifications = [
@@ -234,7 +218,7 @@ function useInView(ref) {
 function GitHubIcon({ size = 18, color = "currentColor" }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill={color} xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+      <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
     </svg>
   );
 }
@@ -381,7 +365,6 @@ function ProjectCard({ p, dark, c }) {
           </>
         )}
 
-
         {/* Featured badge */}
         {p.featured && (
           <div style={{
@@ -441,6 +424,86 @@ function ProjectCard({ p, dark, c }) {
   );
 }
 
+function ContactForm({ c, dark }) {
+  const formRef = useRef();
+  const [status, setStatus] = useState("");
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setStatus("sending");
+
+    // Replace these placeholders with your actual EmailJS credentials
+    // Note: To set this up, go to emailjs.com, create an account, add an email service, 
+    // create an email template, and get your Public Key from the Account section.
+    emailjs.sendForm('service_1s4ycvd', 'template_a20tcpi', formRef.current, 'uFre5bJt9wcBN4ex-')
+      .then((result) => {
+        setStatus("success");
+        e.target.reset();
+        setTimeout(() => setStatus(""), 5000);
+      }, (error) => {
+        console.error(error.text);
+        setStatus("error");
+        setTimeout(() => setStatus(""), 5000);
+      });
+  };
+
+  return (
+    <form ref={formRef} onSubmit={sendEmail} style={{
+      display: "flex", flexDirection: "column", gap: 16,
+      background: c.card, border: `1px solid ${c.border}`, borderRadius: 20,
+      padding: "32px", width: "100%", boxShadow: dark ? "none" : `0 12px 32px ${c.accent}11`
+    }}>
+      <h3 style={{ fontSize: 22, fontWeight: 700, color: c.text, marginBottom: 8 }}>Send a Message</h3>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <label style={{ fontSize: 13, fontWeight: 600, color: c.muted }}>Your Name</label>
+        <input type="text" name="user_name" required style={{
+          background: dark ? `${c.surface}` : "#f8faff",
+          border: `1px solid ${c.border}`, borderRadius: 12, padding: "14px 16px",
+          color: c.text, fontSize: 15, outline: "none", fontFamily: "inherit",
+          transition: "border 0.2s"
+        }} onFocus={e => e.target.style.borderColor = c.accent} onBlur={e => e.target.style.borderColor = c.border} />
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <label style={{ fontSize: 13, fontWeight: 600, color: c.muted }}>Your Email</label>
+        <input type="email" name="user_email" required style={{
+          background: dark ? `${c.surface}` : "#f8faff",
+          border: `1px solid ${c.border}`, borderRadius: 12, padding: "14px 16px",
+          color: c.text, fontSize: 15, outline: "none", fontFamily: "inherit",
+          transition: "border 0.2s"
+        }} onFocus={e => e.target.style.borderColor = c.accent} onBlur={e => e.target.style.borderColor = c.border} />
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <label style={{ fontSize: 13, fontWeight: 600, color: c.muted }}>Message</label>
+        <textarea name="message" rows="4" required style={{
+          background: dark ? `${c.surface}` : "#f8faff",
+          border: `1px solid ${c.border}`, borderRadius: 12, padding: "14px 16px",
+          color: c.text, fontSize: 15, outline: "none", fontFamily: "inherit",
+          resize: "vertical", transition: "border 0.2s"
+        }} onFocus={e => e.target.style.borderColor = c.accent} onBlur={e => e.target.style.borderColor = c.border} />
+      </div>
+
+      <button type="submit" disabled={status === "sending"} style={{
+        background: status === "success" ? c.accent2 : c.accent, color: "#fff", border: "none",
+        padding: "16px", borderRadius: 12, marginTop: 8,
+        cursor: status === "sending" ? "not-allowed" : "pointer", fontWeight: 700, fontSize: 16,
+        fontFamily: "inherit", transition: "all 0.3s",
+        boxShadow: status === "success" ? `0 4px 20px ${c.accent2}55` : `0 4px 20px ${c.accent}55`,
+        opacity: status === "sending" ? 0.7 : 1
+      }}
+        onMouseEnter={e => { if (status !== "sending") { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = status === "success" ? `0 8px 30px ${c.accent2}77` : `0 8px 30px ${c.accent}77`; } }}
+        onMouseLeave={e => { if (status !== "sending") { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = status === "success" ? `0 4px 20px ${c.accent2}55` : `0 4px 20px ${c.accent}55`; } }}>
+        {status === "sending" ? "Sending..." : status === "success" ? "Message Sent! ✓" : status === "error" ? "Error! Try Again" : "Send Message 🚀"}
+      </button>
+
+      {status === "success" && <p style={{ color: c.accent2, fontSize: 14, textAlign: "center", margin: 0 }}>Thank you! Your message has been sent successfully.</p>}
+      {status === "error" && <p style={{ color: "#ff6b6b", fontSize: 14, textAlign: "center", margin: 0 }}>Oops! Something went wrong. Please try again.</p>}
+    </form>
+  );
+}
+
 export default function Portfolio() {
   const [dark, setDark] = useState(true);
   const [activeNav, setActiveNav] = useState("About");
@@ -462,7 +525,7 @@ export default function Portfolio() {
   const filteredSkills = skillTab === "all"
     ? [...skillsData.technical, ...skillsData.soft]
     : skillTab === "technical" ? skillsData.technical
-    : skillsData.soft;
+      : skillsData.soft;
 
   return (
     <div style={{
@@ -550,7 +613,7 @@ export default function Portfolio() {
               fontSize: 80, border: `3px solid ${c.border}`,
               overflow: "hidden",
             }}>
-            <img
+              <img
                 src="profile.jpeg"
                 alt=""
                 style={{
@@ -1051,8 +1114,9 @@ export default function Portfolio() {
           <h2 className="section-heading" style={{ color: c.text, marginBottom: 12 }}>Get In Touch</h2>
           <p style={{ color: c.muted, fontSize: 15 }}>Open for opportunities, collaborations, and conversations</p>
         </div>
-        <div style={{ maxWidth: 600, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 28 }}>
+        <div style={{ maxWidth: 1000, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 40, alignItems: "start" }}>
+          {/* Contact Info */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {[
               { icon: "✉", label: "Email", value: "trishyanigam@gmail.com", href: "mailto:trishyanigam@gmail.com", color: c.accent },
               { icon: "☎", label: "Phone", value: "+91-8881889377", href: "tel:+918881889377", color: c.accent2 },
@@ -1080,6 +1144,9 @@ export default function Portfolio() {
               </a>
             ))}
           </div>
+
+          {/* Contact Form */}
+          <ContactForm c={c} dark={dark} />
         </div>
       </section>
 
@@ -1090,7 +1157,7 @@ export default function Portfolio() {
         flexWrap: "wrap", gap: 12,
         background: dark ? c.surface : "#f0f4ff",
       }}>
-        <span style={{ fontSize: 13, color: c.muted }}>© 2025 Trishya Nigam. Built with ❤️</span>
+        <span style={{ fontSize: 13, color: c.muted }}>© 2026 Trishya Nigam. Built with ❤️</span>
         <span style={{ fontSize: 13, color: c.muted }}>Full Stack Developer · LPU Punjab</span>
       </footer>
     </div>
